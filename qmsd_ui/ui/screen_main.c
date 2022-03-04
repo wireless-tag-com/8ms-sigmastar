@@ -54,12 +54,10 @@ int screen_main_build(void)
 {
     screen_main = lv_obj_create(NULL, NULL);
     if (screen_main) {
-#if 1
         lv_obj_set_style_local_bg_color(screen_main,LV_OBJ_PART_MAIN,LV_STATE_DEFAULT,LV_COLOR_BLACK);
 
         screen_main_button_1_create();
         screen_main_label_1_create();
-#endif
 
         lv_obj_qmsd_set_cb(screen_main, screen_main_qmsd_cb);
         qmsd_call_ui_event_cb("main", screen_main, LV_EVENT_SCREEN_CREATE);
