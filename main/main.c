@@ -26,6 +26,11 @@ int g_pipe_fd[2];
 static bool use_syslog = true;
 static int log_level = DEFAULT_LOG_LEVEL;
 
+#ifdef SSD20X
+extern int ssd20x_panel_init(void);
+extern int ssd20x_panel_deinit(void);
+#endif
+
 static void usage(const char *programname)
 {
     fprintf(stderr, "Usage: %s [options]\n"
@@ -38,6 +43,10 @@ static void usage(const char *programname)
 
 static void __qmsd_handle_signal(int signo)
 {
+#ifdef SSD20X
+    ssd20x_panel_deinit();
+#endif
+
     close(g_pipe_fd[0]);
 
     qmsd_main_msgque_deinit();
@@ -97,6 +106,10 @@ int main(int argc, char *argv[])
 
     fcntl(g_pipe_fd[0], F_SETFL, O_NONBLOCK);
 
+#ifdef SSD20X
+    ssd20x_panel_init();
+#endif
+
     qmsd_main_msgque_init(128);
 
 #ifdef FASTBOOT
@@ -105,6 +118,10 @@ int main(int argc, char *argv[])
 #else
     qmsd_gui_init(qmsd_ui_entry, &g_pipe_fd[1], false);
     qmsd_control_init(&g_pipe_fd[0]);
+#endif
+
+#ifdef SSD20X
+    ssd20x_panel_deinit();
 #endif
 
     close(g_pipe_fd[0]);
