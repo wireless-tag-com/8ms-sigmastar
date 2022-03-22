@@ -3,7 +3,7 @@
 
 #include "cJSON.h"
 
-#define QMSD_VERSION	"1.2"
+#define QMSD_VERSION	"2.0"
 
 void qmsd_init(void);
 void qmsd_deinit(void);

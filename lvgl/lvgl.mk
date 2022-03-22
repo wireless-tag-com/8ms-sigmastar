@@ -1,4 +1,5 @@
 include $(LVGL_DIR)/$(LVGL_DIR_NAME)/src/lv_core/lv_core.mk
+include $(LVGL_DIR)/$(LVGL_DIR_NAME)/src/qmsd_tools/qmsd_tools.mk
 include $(LVGL_DIR)/$(LVGL_DIR_NAME)/src/lv_hal/lv_hal.mk
 include $(LVGL_DIR)/$(LVGL_DIR_NAME)/src/lv_widgets/lv_widgets.mk
 include $(LVGL_DIR)/$(LVGL_DIR_NAME)/src/lv_font/lv_font.mk

@@ -20,8 +20,6 @@
 struct uloop_fd g_control_ufd;
 static struct uloop_timeout g_control_timer;
 
-static bool switch_status;
-
 static void __qmsd_control_loop_cb(struct uloop_fd *u, unsigned int events)
 {
     if (events & ULOOP_READ) {

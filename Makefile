@@ -4,6 +4,7 @@
 CHIP ?=ssd20x
 MODE ?=NORMAL
 UBUS ?=n
+VIDEO ?=n
 
 TOPDIR := ${shell pwd}
 LVGL_DIR_NAME := lvgl
@@ -17,8 +18,13 @@ CFLAGS += -I$(TOPDIR)/include/ -I$(TOPDIR)/include/lvgl/ -I$(TOPDIR)/lvgl/
 CFLAGS += -I$(TOPDIR)/extra/include/$(CHIP)/
 CFLAGS += -I$(TOPDIR)/extra/include/ -I$(TOPDIR)/extra/include/freetype2
 
-LLDFLAGS := -L./lib/$(CHIP) -L$(TOPDIR)/extra/lib/$(CHIP) -lcrypto -lwtinfo -lcJSON -lm -lmi_sys -lmi_disp -lmi_common -lmi_panel -lmi_gfx -lpthread -ldl
-MLDFLAGS := -L./lib/$(CHIP) -L$(TOPDIR)/extra/lib/$(CHIP) -llvgl -lcrypto -lwtinfo -lcJSON -llvgl -lm -lmi_sys -lmi_disp -lmi_common -lmi_panel -lmi_gfx -lpthread -ldl
+ifeq ($(VIDEO),y)
+CFLAGS += -I$(TOPDIR)/extra/include/ffmpeg -I$(TOPDIR)/mmplayer/include
+VIDEOLDFLAGS += -L$(TOPDIR)/extra/lib/$(CHIP)/video -lavformat -lavcodec -lavutil -lswscale -lswresample -lssl -lcrypto -lz -lbz2 -lssplayer -DSUPPORT_VIDEO
+endif
+
+LLDFLAGS := -L./lib/$(CHIP) -L$(TOPDIR)/extra/lib/$(CHIP) -L$(TOPDIR)/extra/lib/$(CHIP)/mi -lcrypto -lwtinfo -lcJSON -lm -lmi_sys -lmi_disp -lmi_common -lmi_panel -lmi_gfx -lpthread -ldl
+MLDFLAGS := -L./lib/$(CHIP) -L$(TOPDIR)/extra/lib/$(CHIP) -L$(TOPDIR)/extra/lib/$(CHIP)/mi -llvgl -lcrypto -lwtinfo -lcJSON -llvgl -lm -lmi_sys -lmi_disp -lmi_common -lmi_panel -lmi_gfx -lpthread -ldl
 
 ifeq ($(CHIP),ssd21x)
 LLDFLAGS += -lmi_fb
@@ -61,7 +67,9 @@ else
 MLDFLAGS += -lbz2 -lz -lpng -lfreetype -llvfreetype -lubox -lmi_divp -lmi_disp -lmi_ao -lmi_gfx -lmi_sys -lmi_common $(UBUSLIBS)
 endif
 
-all: clean prepare $(TARGETS) qmsd-demo
+MLDFLAGS += $(VIDEOLDFLAGS)
+
+all: clean prepare liblvgl.so liblvfreetype.so $(TARGETS) qmsd-demo
 
 prepare:
 	@mkdir -p build build_ui build_cl bin lib/$(CHIP)

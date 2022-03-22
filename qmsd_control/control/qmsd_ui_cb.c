@@ -31,8 +31,10 @@ void qmsd_ui_cb(const char *name, lv_obj_t* obj,lv_event_t event)
                 cJSON_AddStringToObject(attr, "action", "click");
 
                 j_str = cJSON_PrintUnformatted(attr);
-                qmsd_main_msgque_send(j_str, strlen(j_str));
-                qmsd_gui_notify();
+                if (j_str) {
+                    qmsd_main_msgque_send(j_str, strlen(j_str));
+                    qmsd_gui_notify();
+                }
                 cJSON_Delete(attr);
             }
         } else if (!strcmp(name, "main_button_1")) {
@@ -56,8 +58,10 @@ void qmsd_ui_cb(const char *name, lv_obj_t* obj,lv_event_t event)
                 cJSON_AddStringToObject(attr, "action", "click");
 
                 j_str = cJSON_PrintUnformatted(attr);
-                qmsd_main_msgque_send(j_str, strlen(j_str));
-                qmsd_gui_notify();
+                if (j_str) {
+                    qmsd_main_msgque_send(j_str, strlen(j_str));
+                    qmsd_gui_notify();
+                }
                 cJSON_Delete(attr);
             }    
         }
