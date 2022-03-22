@@ -69,7 +69,7 @@ endif
 
 MLDFLAGS += $(VIDEOLDFLAGS)
 
-all: clean prepare liblvgl.so liblvfreetype.so $(TARGETS) qmsd-demo
+all: clean prepare $(TARGETS) qmsd-demo
 
 prepare:
 	@mkdir -p build build_ui build_cl bin lib/$(CHIP)
