@@ -3,7 +3,7 @@
 
 #define QMSD_EVENT_TYPE "/local/qmsd/*"
 
-#define QMSD_UI_EVENT_TYPE "/local/qmsdui"
+#define QMSD_UI_EVENT_TYPE "/local/qmsdui/*"
 
 typedef void (*qmsd_ubus_event_cb)(const char *event, char *msg);
 void qmsd_ubus_set_event_cb(qmsd_ubus_event_cb cb);

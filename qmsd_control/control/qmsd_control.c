@@ -57,12 +57,19 @@ static void __qmsd_control_timer_cb(struct uloop_timeout *timeout)
 
 static void __qmsd_event_cb(const char *event, char *msg)
 {
-
+    printf("%s[%s]\n", event, msg);
+    if (!strcmp(event, "/local/qmsd/mqtt")) {
+        qmsd_ctrl_str_gui(msg);
+    } else if (!strcmp(event, "/local/qmsd/ctrl")) {
+         qmsd_ctrl_str_gui(msg);
+    }
 }
 
 void qmsd_control_init(int *pipe_fd)
 {
     qmsd_set_ui_event_cb(qmsd_ui_cb);
+
+    mmplayer_start(600, 600);
 
     uloop_init();
 

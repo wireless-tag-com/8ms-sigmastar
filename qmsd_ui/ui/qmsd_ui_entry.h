@@ -12,14 +12,18 @@ extern "C" {
 #include "qmsd_gui.h"
 
 LV_IMG_DECLARE(img1639365041009_png);
+extern lv_font_t* ft_font;
 
 extern lv_obj_t *screen_main;
 extern lv_obj_t* screen_main_button_1;
+extern lv_obj_t* screen_main_button_1_label;
 extern lv_obj_t* screen_main_label_1;
 
 extern lv_obj_t *screen_test;
 extern lv_obj_t* screen_test_button_1;
 extern lv_obj_t* screen_test_img_1;
+
+extern lv_obj_t* screen_main_play_list;
 
 extern lv_obj_t *screen_test2;
 extern lv_obj_t* screen_test2_button_1;

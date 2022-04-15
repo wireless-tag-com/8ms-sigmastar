@@ -26,11 +26,6 @@ int g_pipe_fd[2];
 static bool use_syslog = true;
 static int log_level = DEFAULT_LOG_LEVEL;
 
-#ifdef SSD20X
-extern int ssd20x_panel_init(void);
-extern int ssd20x_panel_deinit(void);
-#endif
-
 static void usage(const char *programname)
 {
     fprintf(stderr, "Usage: %s [options]\n"
@@ -43,10 +38,6 @@ static void usage(const char *programname)
 
 static void __qmsd_handle_signal(int signo)
 {
-#ifdef SSD20X
-    ssd20x_panel_deinit();
-#endif
-
     close(g_pipe_fd[0]);
 
     qmsd_main_msgque_deinit();
@@ -76,9 +67,33 @@ static void __qmsd_setup_signals(void)
 
 extern void qmsd_ui_logo_entry(void);
 
+void qmsd_list_int(void *val, int index)
+{
+    int *p = (int *)val;
+    printf("%d %d\n", *p, index);
+    //printf("i: %d\n",index);
+}
+
+void qmsd_list_double(void *val, int index)
+{
+    double *p = (double *)val;
+    printf("%f %d\n", *p, index);
+    //printf("i: %d\n",index);
+}
+
+void qmsd_list_str(void *val, int index)
+{
+    char *p = (char *)val;
+    printf("%s %d\n", p, index);
+    //printf("i: %d\n",index);
+}
+
 int main(int argc, char *argv[])
 {
     int op;
+    int a[5] = { 0, 1, 2, 3, 4};
+    double d[4] = { 1.1, 1.2 ,1.4, 1.8};
+    char *sa[2] = {"111", "dsag"};
 
     while ((op = getopt(argc, argv, "l:S")) != -1) {
         switch (op) {
@@ -106,10 +121,6 @@ int main(int argc, char *argv[])
 
     fcntl(g_pipe_fd[0], F_SETFL, O_NONBLOCK);
 
-#ifdef SSD20X
-    ssd20x_panel_init();
-#endif
-
     qmsd_main_msgque_init(128);
 
 #ifdef FASTBOOT
@@ -118,10 +129,6 @@ int main(int argc, char *argv[])
 #else
     qmsd_gui_init(qmsd_ui_entry, &g_pipe_fd[1], false);
     qmsd_control_init(&g_pipe_fd[0]);
-#endif
-
-#ifdef SSD20X
-    ssd20x_panel_deinit();
 #endif
 
     close(g_pipe_fd[0]);

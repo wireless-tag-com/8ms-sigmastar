@@ -10,7 +10,7 @@ extern "C"
 
 void __qmsd_main_button_1_cb(lv_obj_t* obj,lv_event_t event);
 void __qmsd_test_button_1_cb(lv_obj_t* obj,lv_event_t event);
-
+void __qmsd_play_list_button_cb(lv_obj_t* obj,lv_event_t event);
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

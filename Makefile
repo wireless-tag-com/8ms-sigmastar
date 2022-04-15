@@ -4,7 +4,7 @@
 CHIP ?=ssd20x
 MODE ?=NORMAL
 UBUS ?=n
-VIDEO ?=n
+VIDEO ?=y
 
 TOPDIR := ${shell pwd}
 LVGL_DIR_NAME := lvgl
