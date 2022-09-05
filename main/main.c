@@ -37,6 +37,7 @@ static void usage(const char *programname)
             "Options:\n"
             " -l <level>:   Log output level (default: %d)\n"                   
             " -S:           Use stderr instead of syslog for log messages\n"
+            "-d <dir>: set lcd dir\n"
             "\n", programname, DEFAULT_LOG_LEVEL);
     exit(1);
 }
@@ -79,8 +80,9 @@ extern void qmsd_ui_logo_entry(void);
 int main(int argc, char *argv[])
 {
     int op;
+    int dir = 0;
 
-    while ((op = getopt(argc, argv, "l:S")) != -1) {
+    while ((op = getopt(argc, argv, "l:d:S")) != -1) {
         switch (op) {
         case 'l':
             log_level = atoi(optarg);
@@ -89,6 +91,10 @@ int main(int argc, char *argv[])
         case 'S':
             use_syslog = false;
             break;
+
+        case 'd':
+        	dir = atoi(optarg);
+        	break;
 
         default:
             usage(argv[0]);
@@ -111,6 +117,8 @@ int main(int argc, char *argv[])
 #endif
 
     qmsd_main_msgque_init(128);
+
+    qmsd_disp_set_dir(dir);
 
 #ifdef FASTBOOT
     qmsd_gui_init(qmsd_ui_logo_entry, &g_pipe_fd[1], true);
